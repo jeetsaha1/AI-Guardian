@@ -9,37 +9,37 @@ const RiskAssessment = () => {
     { 
       icon: Eye, 
       label: "Lighting", 
-      score: 75, 
+      score: 8, 
       status: "good" as const,
       description: "Well-lit area"
     },
     { 
       icon: Users, 
       label: "Crowd Density", 
-      score: 60, 
+      score: 6, 
       status: "moderate" as const,
       description: "Moderate foot traffic"
     },
     { 
       icon: Shield, 
       label: "Security", 
-      score: 85, 
+      score: 9, 
       status: "good" as const,
       description: "CCTV monitored"
     },
   ];
 
-  const overallRisk = 73;
+  const overallRisk = 7.7;
 
   const getRiskColor = (score: number) => {
-    if (score >= 75) return "success";
-    if (score >= 50) return "warning";
+    if (score >= 7) return "success";
+    if (score >= 4) return "warning";
     return "destructive";
   };
 
   const getRiskLevel = (score: number) => {
-    if (score >= 75) return "Low Risk";
-    if (score >= 50) return "Moderate Risk";
+    if (score >= 7) return "Low Risk";
+    if (score >= 4) return "Moderate Risk";
     return "High Risk";
   };
 
@@ -59,11 +59,11 @@ const RiskAssessment = () => {
       <CardContent className="space-y-4">
         {/* Overall Risk Score */}
         <div className="text-center space-y-2">
-          <div className="text-2xl font-bold text-foreground">{overallRisk}%</div>
+          <div className="text-2xl font-bold text-foreground">{overallRisk}/10</div>
           <Badge variant={getRiskColor(overallRisk) as any} className="text-sm">
             {getRiskLevel(overallRisk)}
           </Badge>
-          <Progress value={overallRisk} className="w-full h-2" />
+          <Progress value={overallRisk * 10} className="w-full h-2" />
         </div>
 
         {/* Risk Points */}
@@ -79,7 +79,7 @@ const RiskAssessment = () => {
                 </div>
               </div>
               <Badge variant={getRiskColor(factor.score) as any} className="text-xs">
-                {factor.score}%
+                {factor.score}/10
               </Badge>
             </div>
           ))}
