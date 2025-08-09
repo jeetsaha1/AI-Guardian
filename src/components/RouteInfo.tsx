@@ -5,14 +5,42 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin, Navigation, Clock, ShieldCheck } from "lucide-react";
 
 const RouteInfo = () => {
-  const [currentRoute, setCurrentRoute] = useState({
-    from: "Current Location",
-    to: "Downtown Office",
-    duration: "25 min",
-    distance: "8.5 km",
-    safetyScore: 85,
-    status: "safe"
-  });
+  const [selectedRouteIndex, setSelectedRouteIndex] = useState(0);
+  
+  const routes = [
+    {
+      name: "Safest Route",
+      from: "Current Location",
+      to: "Downtown Office", 
+      duration: "28 min",
+      distance: "9.2 km",
+      safetyScore: 95,
+      status: "safe",
+      description: "Well-lit streets, CCTV monitored"
+    },
+    {
+      name: "Fastest Route",
+      from: "Current Location", 
+      to: "Downtown Office",
+      duration: "22 min",
+      distance: "7.8 km", 
+      safetyScore: 75,
+      status: "moderate",
+      description: "Main roads, moderate traffic"
+    },
+    {
+      name: "Scenic Route",
+      from: "Current Location",
+      to: "Downtown Office",
+      duration: "35 min", 
+      distance: "11.5 km",
+      safetyScore: 85,
+      status: "safe",
+      description: "Park areas, less crowded"
+    }
+  ];
+
+  const currentRoute = routes[selectedRouteIndex];
 
   const getSafetyColor = (score: number) => {
     if (score >= 80) return "success";
@@ -29,8 +57,35 @@ const RouteInfo = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Route Details */}
-        <div className="space-y-3">
+        {/* Route Selection */}
+        <div className="space-y-2">
+          <h4 className="text-sm font-medium text-foreground">Available Routes</h4>
+          <div className="grid grid-cols-3 gap-2">
+            {routes.map((route, index) => (
+              <Button
+                key={index}
+                variant={selectedRouteIndex === index ? "default" : "outline"}
+                size="sm"
+                className="text-xs p-2 h-auto flex flex-col"
+                onClick={() => setSelectedRouteIndex(index)}
+              >
+                <span className="font-medium">{route.name}</span>
+                <span className="text-xs opacity-75">{route.duration}</span>
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* Selected Route Details */}
+        <div className="space-y-3 bg-secondary/30 p-3 rounded-lg">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-foreground">{currentRoute.name}</h3>
+            <Badge variant={getSafetyColor(currentRoute.safetyScore) as any} className="flex items-center space-x-1">
+              <ShieldCheck className="h-3 w-3" />
+              <span>{currentRoute.safetyScore}% Safe</span>
+            </Badge>
+          </div>
+          
           <div className="flex items-start space-x-3">
             <MapPin className="h-4 w-4 text-muted-foreground mt-1" />
             <div className="flex-1">
@@ -47,12 +102,9 @@ const RouteInfo = () => {
               </div>
               <span className="text-sm text-muted-foreground">{currentRoute.distance}</span>
             </div>
-            
-            <Badge variant={getSafetyColor(currentRoute.safetyScore) as any} className="flex items-center space-x-1">
-              <ShieldCheck className="h-3 w-3" />
-              <span>{currentRoute.safetyScore}% Safe</span>
-            </Badge>
           </div>
+          
+          <p className="text-xs text-muted-foreground italic">{currentRoute.description}</p>
         </div>
 
         {/* Mock Map Area */}
