@@ -66,9 +66,9 @@ const RiskAssessment = () => {
           <Progress value={overallRisk} className="w-full h-2" />
         </div>
 
-        {/* Risk Factors */}
+        {/* Risk Points */}
         <div className="space-y-3">
-          <h4 className="text-sm font-medium text-foreground">Risk Factors</h4>
+          <h4 className="text-sm font-medium text-foreground">Risk Points</h4>
           {riskFactors.map((factor, index) => (
             <div key={index} className="flex items-center justify-between p-3 bg-secondary/50 rounded-lg">
               <div className="flex items-center space-x-3">
